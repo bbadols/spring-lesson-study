@@ -1,146 +1,244 @@
 **spring lesson note**
 
-주요 목차(spring 1차 프로젝트 전까지)
-- Maven(메이븐)
-- Git 형상 관리
-- Spring 관련 용어 정리
-- IOC / DI 의 설정 스타일
- 1) xml
- 2) Annotation
- 3) Java Config
-- SpringBoot 소개 및 CommandLineRunner
+주요 목차 ( spring 1차 프로젝트 전까지 ) 
+- Maven 
+- Git 형상관리 
+- Spring 관련 용어 정리 
+- IOC / DI  설정 스타일 
+  1) xml 
+  2) Annotation
+  3) Java Confing
+ - SpringBoot 소개 및  CommandLineRunner  
+ - AOP , Logging
+ - MyBatis Framework 
+ - SprigngMVC (Legacy)
+ - SpringBoot Web 
+ - JUnit 
+ - Thymeleaf
+ - Ajax/JSON 
+ - CSS Framework : Bootstrap 
+ - Agile Scrum : Jira
+ -------------------------------
+ 
+ - Spring 관련 용어 정리 
+ 
+ library : 라이브러리 , 재사용 가능한 프로그램들의 모음
+ jar : 자바 프로그램 압축 확장자 ( springboot application 을 build )
+ war : 자바 웹어플리케이션 확장자 
+ component : 독립적 기능단위를 가진 부품 ( 부품화되는 요소를 컴포넌트라고 함 ) 
+ 			 Bean => 자바 컴포넌트 , 스프링에서 관리하는 컴포넌트(객체)를 Bean이라고 한다
+ API : Application Programming Interface 응용 프로그램을 개발하기 위해 제공하는 
+ 	   인터페이스 
+ Framework : 사전적 의미는 틀 , 
+             frame( 틀 ) + work ( 일 ) => 일을 잘되게 하기 위해 제공하는 틀  
+             반완전한 어플리케이션 -> 가능한 모든 요소를 지원하여 비즈니스에 집중하도록 함 
+ Spring Framework : 자바 어플리케이션의 설계, 구현 , 테스트 , 운영에 대한 
+                    Infrastructure 기반을 제공한다 
+                    다양한 컴포넌트 및 재사용 가능한 라이브러리와 디자인 패턴을 제공한다
+                    IOC/DI, AOP, SpringMVC, Data Access 를 위한 MyBatis , JPA 
+                    , 신속한 설정과 개발을 위한 Spring Boot , 
+                    단위 테스트를 위한 JUnit ,  보안을 위한 Spring Security, 
+                    MSA 를 위한 Spring Cloud 등을 기술을 지원한다 
+                    
+ Maven  :  프로젝트 관리 도구 
+ 핵심 역할 
+ 1. 의존성 관리 (Dependency Management)와 2. 빌드 자동화 (Build Automation)                 
+    필요 라이브러리를 일괄적으로 관리                 프로젝트 완료 후 배포 deploy 를 위해 jar or war 로 build 한다 
+                     
+ **IOC 와 DL/DI**                   
+                    
+   - IOC 개념 : Inversion Of Control  , 역 제어 , 제어의 역전  => 소프트웨어 설계 원리이자 디자인 패터ㄴ 
+   					  객체 or Component or Bean 제어를 IOC Container에 위임 
+   					  다시 말하면 필요시 객체를 생성하는 것이 아니라 IOC Container로부터 필요한 객체를 받아오는 구조 
+   					  Why ?  Loose Coupling  느슨한 결합도 : 결합도란 모듈간의 상호 의존도, 결합도가 느슨해지면  확장성, 
+   					  유지보수성 향상됨     
+   - DI 개념 :  Dependecy Injection , 의존성 주입 => 디자인 패턴 
+                     필요로 하는 의존성(Dependency: bean or component) 을 주입 Injection 을 통해 확보 
+                     IOC 를 DI 기법을 통해 실현한다  
+                          
+     - DL 개념 :  Dependecy Lookup , 의존성 검색 => 디자인 패턴 
+                     필요로 하는 의존성(Dependency: bean or component) 을 검색 Lookup 을 통해 확보 
+                     IOC 를 DL 기법을 통해 실현한다                         
+               					               
+   **Spring 설정 방식**
+   XML, Annotation , Java Config , properties 등이 있다. 
+   XML + Annottion 조합 또는 Annotation + Java Config 또는  XML + Annotation + Java Config + properties 로 
+   다양하게 조합될 수 있다 
+   
+   **Spring Annotation Config**
+   -컴포넌트 계열 애너테이션 : 스프링 컨테이너에게 해당 클래스가 bean 생성 대상임을 알리는 애너테이션 
+   											 Bean으로 생성되고 라이프 사이클 관리 및 싱글톤으로 운영됨 
+   @Component :  컴포넌트 계열 상위 타입, 일반 컴포넌트 클래스에 명시 , bean 으로 생성 관리 
+   컴포넌트 계열 하위 어노테이션 
+   @Controller : MVC 중 Controller ( RestController )  영역 Bean 에 명시 
+   @Service : Business 또는 Service Layer에 명시 
+   @Repository : Data Access Object 또는 Persistence Layer 에 명시 
+   
+   -설정 애너테이션 
+   @Configuration : 해당 클래스가 Spring 설정 클래스임을 Spring Container에게 알리는 애너테이션 
+   @Bean 애너테이션 :  @Configuration 이 명시된 클래스 내부의 메서드에 사용하는 애너테이션 
+	메서드의 리턴값을 Bean 으로 생성해 관리 , 주로 외부 라이브러리에 의한 객체를 Bean 으로 생성 관리할 때 사용 
+   
+   @ComponentScan(base package) : 지정한 base package 와 그 하위의 모든 패키지들의 클래스들을 스캔해서 
+   														bean 생성과  DI 을 실행한다  
+   
+   - DI (Dependency Injection) 관련 애너테이션 
+    @Autowired : 의존성 or Bean or Component or 필요객체 를  타입으로 검색해 
+    					  주입 ( field, method , constructor 다 가능 ) 
+    @Qualifier(bean name ) : 만약 동일한 타입의 객체bean 들이 여러개일 경우 
+    									   직접 bean name을 명시해서 주입 받을 수 있다 
+    그 외 @Resource , @Inject 등의 DI 관련 애너테이션이 있다 
+    
+    **DI :  생성자 Constructor 를 통한 DI 를 권장한다 **
+     final field 에  Constructor 를 통한 DI 를 권장하고 현업에서 주로 이렇게 사용한다 
+     ex)   
+       @Controller
+       public class MemberController{ 
+       private final MemberService memberService; 
+           @Autowired  // 생략 가능  : 스프링 컨테이너가 의존성 주입 DI  를 자동으로 해준다 
+           public MemberController(MemberService memberService){
+           		this.memberService = memberService
+           }	
+       }
+       **final field 와 Constructor 를 통한 DI를 권장하는 이유**
+       - 의존성 또는 Bean 또는 객체의 불변성 보장 
+         final field ( final 인스턴스 변수( 상수화 ) ) 는 생성자로 초기화 될 수 있음 
+         불변성은 멀티 스레딩시 안전 
+       - 의존성 확보가 보장된다. NPE(NullPointerException) 을 사전에 방지할 수 있다 
+          참고로 Constructor Injection 이 아닌 field Injection 또는 setter Injection 은 
+          의존성 (필요로 하는 객체)을 주입하지 않아도 객체 생성이 가능 
+          -> Constructor Injection 은 필요로 하는 bean or 객체 or 의존성을 반드시 주입해야
+          해당 객체가 생성 가능하다 => 확실한 의존성 주입을 보장 
+          * Spring IOC 컨테이너의 자동 DI (의존성 주입 기준) 
+            ===> Spring 4.3 버전 이상 ( 2025.7. 기준 Spring 6 버전 ) 부터 지원 
+                   단일 생성자 (매개변수 여러개 가능) 에 한해 자동 주입 ( @ Autowired 생략 가능 ) 
+                   만약 생성자가 여러 개일 경우에는 DI 관련 Annotation 을 명시해야 한다 
+                   
+                   
+  **Spring Bean LifeCycle**                 
+   Bean : 스프링 컨테이너가 관리하는 객체(컴포넌트)
+   
+   Spring Container 실행(설정 로딩) -> Bean 생성 & DI 
+   -> 초기화 콜백 (init callback)   : @PostConstruct 생성 후 초기화 작업 
+   -> 서비스 : Bean 의 기능 실행 
+   -> 소멸 콜백 ( destroy callback ) : @PreDestroy : 소멸 직전 실행되는 작업 
+   -> 종료 
+   
+   ***Spring Boot***
+   스프링 부트는 스프링의 하위 프로젝트 
+   "단독으로 빠르게 개발 가능한 스프링 프로젝트"
+   자동 설정 ,  웹컨테이너 내장 등을 지원한다 
+   
+   * COC : Convention Over Configuration   설정을 넘어 관례로 
+      SpringBoot 상에서는 관례적 설정들이 자동 지원 
+  
+  **SpringBoot의 설정**
+      
+  @SpringBootApplication : 스프링 부트의 설정 애너테이션 
+  :  1. 설정 정보 2. Bean 생성, DI 3. 자동 설정 지원 
+  => 다음 세가지의 기능을 합니다 
+  1. @SpringBootConfiguration ==> @Configuration :  이 클래스는 스프링 설정 클래스입니다      
+         @Bean 을 이용해  외부 라이브러리 ( ex : DBCP ) 를 사용할 수 있도록 spring bean 생성 ,관리
+  2. @ComponentScan(base package) ==> 지정한 패키지와 패키지 하위의 모든 클래스들을 
+  															   스캔해서 bean 생성  , DI 처리 
+  3. @EnableAutoConfiguration ==> 필요한 설정들을 자동으로 해줘 															          
+                
+  **SpringBoot의 CommandLineRunner**
+   CommandLineRunner 커맨드라인러너란 
+   SpringBoot 어플리케이션이 완전히 준비되면 
+   CommandLineRunner가 자동으로 작동되어 
+   우리가 정의한 로직이 수행됨 
+   
+   why?  배치작업 , 초기 데이터 설정 , 캐쉬 작업 , 헬스 체크 : DB 연결 확인 , 외부 API 상태 확인
+   			 학습 예제용도로도 적합 
+   
+   스프링 부트의 기본 구성 
+   @SpringBootApplication 
+   public class MyApplication {
+   			public static void main(String [] args){
+   				SpringApplication.run(MyApplication.class,args);
+   			}
+   }
+   스프링 부트의 기본 구성 + CommandLineRunner 
+   @SpringBootApplication 
+   public class MyApplication implements CommandLineRunner{
+   			public static void main(String [] args){
+   				SpringApplication.run(MyApplication.class,args);
+   			}
+   			@Override
+   			public void run(String ...args) throws Exception{
+   				// 커맨드라인 러너의 실행 내용 
+   				// 배치 , 헬스 체크 등 .. .
+   			}
+   }
+   
+   **AOP**
+   Aspect Oriented Programming 관점 지향 프로그래밍
+   Aspect -> 관점 : Core Concern 핵심 관심사 + Cross Cutting Concern 횡단관심사 or 공통 관심사
+   시스템을 핵심관심사와 공통 관심사로 구분해 분석, 설계, 구현, 테스트, 운영 한다
+   AOP목적은 공통적, 반복적인 작업을 피하고 효과적으로 개발하고 유지보수하기 위함
+   
+   "AOP는 OOP를 더욱 OOP답게 한다"
+   
+   CoreConcern 핵심 관심사 : 시스템 업무 목적에 해당하는 주요 로직(ex - 회원 관리, 결제..)
+   Cross Cutting Concern 횡단 관심사 : 시스템 여러부분에 걸쳐 적용되는 공통 로직
+   									(ex - 로깅, 트랜잭션, 보안, 성능체크 등)
 
-- AOP
-- MyBatis Framework
-- SpringBootMVC(Legacy)
-- SpringBoot Web
-- JUnit, Logging
-- Thymeleaf
-- Ajax / JSON
-- CSS Framework : BootStrap
-- Agile Scrum : Jira
--------------------------------------------
-
-- Spring 관련 용어 정리
- library : 라이브러리, 재사용 가능한 프로그램들의 모음
- jar : 자바 프로그램 압축 확장자 (springboot application을 build)
- war : 자바 웹어플리케이션 확장자
- component : 독립적 기능단위를 가진 부품(부품화되는 요소를 컴포넌트라고 함)
- 			 Bean => 자바 컴포넌트, 스프링에서 관리하는 컴포넌트(객체)를 Bean이라 한다
- API : Application Programming Interface 응용 프로그램을 개발하기 위해 제공하는 인터페이스
- Framework : 사전적 의미는 틀
- 			 frame(틀) + work(일) -> 일을 잘 되게 하기 위해 제공하는 틀
- 			 반완전한 어플리케이션 -> 가능한 모든 요소를 지원하여 비즈니스에 집중하도록 함
- Spring Framework : 자바 어플리케이션의 설계, 구현, 테스트, 운영에 대한
- 					Infrastructure 기반을 제공한다
- 					다양한 컴포넌트 및 재사용 가능한 라이브러리와 디자인 패턴을 제공한다
- 					IOC/DI, AOP, SpringMVC, Data Access를 위한 MyBatis, JPA
- 					, 신속한 설정과 개발을 위한 SpringBoot,
- 					단위 테스트를 위한 JUnit, 보안을 위한 Spring Security,
- 					MSA를 위한 Spring Cloud등의 기술을 지원한다
- Maven 의 핵심 역할 : 프로젝트 관리 도구
- 핵심 역할
- 1. 의존성 관리 (Dependency Management)와 2. 빌드 자동화 (Build Automation)
-   필요 라이브러리를 일괄적으로 관리			  프로젝트 완료 후 배포 deploy를 위해 jar or war로 build 한다
-
- ***IOC와 DL/DI***
- - IOC 개념 : Inversion Of Control, 역 제어, 제어의 역전 -> 소프트웨어 설계 원리이자 디자인 패턴
- 			 객체 or Component or Bean 제어를 IOC Container에 위임
- 			 다시 말하면 필요시 객체를 생성하는 것이 아니라 IOC Container로부터 필요한 객체를 받아오는 구조
- 			 Why? => Loose Coupling 느슨한 결합도 떄문 : 결합도란 모듈간의 상호 의존도, 결합도가 느슨해지면
- 			 		 확장성, 유지보수성이 향상됨
- 			 		 
- - DI 개념 : Dependecy Injection, 의존성 주입 -> 디자인 패턴
- 			필요로 하는 의존성(Dependency : bean or component)을 주입 Injection을 통해 확보
- 			즉, IOC를 DI기법을 통해 실현한다
- 			
- - DL 개념 : Dependecy Lookup, 의존성 검색 -> 디자인 패턴
- 			필요로 하는 의존성(Dependency : bean or component)을 검색 Lookup을 통해 확보
- 			즉, IOC를 DL기법을 통해 실현한다
-
-
-** Spring 설정 방식 **
-XML, Annotation, Java Config 이후에는 properties 등이 있다
-레거시 에서는 XML + Annotation 조합 또는 Annotation + JavaConfig 또는
-XML + Annotation + JavaConfig + properties로 다양하게 조합될 수 있다.
-
-**Spring Annotation Config**
-
--컴포넌트 계열 애너테이션 : 스프링 컨테이너에게 해당 클래스가 bean 생성 대상임을 알리는 애너테이션
-					Bean으로 생성되고 라이프 사이클 관리 및 싱글톤으로 운영됨
-@Component : 컴포넌트 계열 상위 타입, 일반 컴포넌트 클래스에 명시, bean으로 생성 관리
-컴포넌트 계열 하위 어노테이션
-@Controller : MVC중 Controller(RestController) 영역 Bean에 명시
-@Service : Business 레이어(Layer 계층) 또는 Service Layer에 명시
-@Repository : Data Access Object 또는 Persistence Layer에 명시
-
--설정 애너테이션
-@Configuration : 해당 클래스가 Spring 설정 클래스임을 Spring Container에게 알리는 애너테이션
-@Bean 애너테이션: @Configuration이 명시된 클래스 내부의 메서드에 사용하는 애너테이션
-메서드의 리턴값을 Bean으로 생성해 관리, 주로 외부 라이브러리에 의한 객체를 Bean으로 생성 관리할 때 사용
-
-@ComponentScan(base package) : 지정한 base package와 그 하위의 모든 패키지들의 클래스들을 스캔해서
-							   bean 생성과 DI를 실행한다
-							   
-- DI(Dependency Injection) 관련 애너테이션
-@Autowired : 의존성 부여 or Bean or Component or 필요객체를 타입으로 검색해 주입
-			 (field, method, constructor 다 가능)
-
-@Qualifier(bean name) : 만약 동일한 타입의 객체bean들이 여러개일 경우
-						직업 beanName을 명시하여 주입 받을 수 있다
-그 외 @Resource, @Inject  등의 DI 관련 애너테이션이 있다
-
-
-
-*** 최신 spring 에서는 DI는 생성자를 통한 Contructor를 통한 DI를 권장한다****
-	final field에 Constructor를 통한 DI를 권장하고 현업에서는 주로 이렇게 사용한다
-	ex)
-	@Controller
-	public class MemberController{
-	private final MemberService memberService;
-		@Autowired // 생략가능 : 스프링 컨테이너가 의존성 주입 DI를 자동으로 해준다
-		public MemberController(MemberService memberService){
-			this.memberService = memberService;
-		}
-	}
-
-	**final field 와 Constructor 를 통한 DI를 권장하는 이유 **
-	- 의존성 또는 Bean 또는 객체의 불변성 보장
-	 final field (final 인스턴스 변수(상수화))는 생성자로 초기화 될 수 있음
-	 불변성은 멀티 스레딩시 안전
-	- 의존성 확보가 보장된다. NPE(NullPointerException)을 사전에 방지할 수 있다
-	  참고로 Constructor Injection이 아닌 field Injection 또는 setter Injection은
-	  의존성 (필요로 하는 객체)을 주입하지 않아도 생성이 가능
-	-> Constructor Injection은 필요로 하는 bean or 객체 or 의존성을 반드시 주입해야
-	 해당 객체가 생성 가능하다. => 확실한 의존성 주입을 보장
-	*Spring IOC 컨테이너의 자동 DI(의존성 주입 기준)
-	==> Spring 4.3 버전 이상 (2025.7. 기준 Spring 6) 부터 지원
-		단일 생성자 (매개변수 여러개 가능) 에 한해 자동 주입( @Autowired 생략 가능)
-		만약 생성자가 여러 개 일 경우에는 DI Annotation을 명시해야 한다
-	
- **Spring Bean LifeCycle**
- 	Bean : 스프링 컨테이너가 관리하는 객체(컴포넌트)
- 	
- 	Spring Container 실행(설정 로딩) -> Bean 생성 & DI
- 	-> 초기화 콜백(init callback) : @PostConstruct 생성 후 초기화 작업을 진행
- 	-> 서비스 : Bean의 기능 실행
- 	-> 소멸 콜백 (destory callback):@PreDestroy:소멸 직전 실행되는 작업
-	-> 종료
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  	- AOP 동작 원리
+  	Proxy Design Pattern : Proxy는 대리인을 의미,
+  	Proxy를 이용해 특정 로직 수행을 대행하는 디자인 패턴
+    사용하는 측과 서비스를 제공하는 측의 매개자 로서 Proxy 객체가 역할 담당
+    (ex: 아이유 팬들<--->아이유 매니저들(Proxy) <---> 아이유(Core))
+   
+    - spring09 AOP 예제 통해 확인한 결과
+    	AOP는 IOC(DI,DL)를 전제로 이루어진다
+    	Spring IOC Contianer가 AOP가 적용될 때 실제 구현체(ex- MemberServiceImpl)가 아니라
+    	실제 구현체의 참조를 가지고 있는 Proxy(대리인) 객체를 DI(의존성 주입)시킨다.
+    	이를 통해 사용하는 측은 실제 구현체라 인식하며 business Method를 호출하고 중간 매개자인
+    	Proxy가 AOP 설정에 따라 method 실행 전, 실행 후, 특정예외발생시 등의 상황에
+    	Cross Cutting Concern 공통기능 로직을 실행 하고 Core 로직을 실행한다
+   
+   	- AOP 관련 주요 키워드
+   	  Aspect : Cross Cutting Concern 로직 정의 클래스
+   	  PointCut : AOP 적용 대상을 지정
+   	  Advice : AOP 적용 시점(Before 메서드 실행 전, After Returing 메서드 정상 수행 후,
+   	  					  After thorwing 특정 예외 발생 시, After 예외 발생 여부와 관계없이 메서드 상관없이
+   	  					  항상, Around 앞의 4가지 advice를 모두 포함)
+   
+   ** Logging **
+   Logging 시스템: 시스템 동작에 관한 정보를 제공하는 기록
+   주로 시스템 실행 정보 및 성능, 에러에 대한 정보를 저장하고, 제공
+   (주로 파일 및 콘솔에 로깅)
+   참고 : System.out.println() -> 개발 및 운영에 관한 로그 레벨 지정 불가능하고
+   		파일과 같은 외부에 저장할 수도 없음
+   
+   Java진영에서 대표적인 로깅 프레임워크는 Logback, Log4j2가 있음
+   SpringBoot에서는 Logback이 기본 내장되어 있다.
+   - SLF4j : Simple Logging Facade For Java ( Facade : 겉면,소통부,인터페이스)
+	 다양한 Logging FrameWork 구현체들을 표준화 하는 Interface 역할
+	 이후 로깅 구현체를 변경해도 별도의 수정 없도록 캡슐화(Encapsulation)하는 역할을 함
+	 
+   - 로깅 프레임워크 특징
+     설정 정보로 패키지별 레벨 설정이 가능
+     지정한 레벨 등급 이상의 로그만 기록하고 저장하는 방식
+     용량설정, 실행 시 설정 변경등 다양한 기능을 제공
+   
+   - 로그 레벨 (log level) : 만약 Info 레벨로 지정하면 INFO,WARN,ERROR가 실행됨
+     ERROR - 에러
+     WARN - 경고
+     INFO - 정보
+     DEBUG - 디버그
+     TRACE - 상세 정보
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
