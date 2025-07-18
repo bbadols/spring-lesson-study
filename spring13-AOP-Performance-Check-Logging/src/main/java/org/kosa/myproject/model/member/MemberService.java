@@ -6,24 +6,24 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 	public void findMember() {
 		try {
-			Thread.sleep(200); // 0.2초 지연시킴
-		} catch (InterruptedException e) {
+			Thread.sleep(200);//0.2초 소요
+		} catch (InterruptedException e) {			
 			e.printStackTrace();
 		}
 		System.out.println("core find member");
 	}
 	public void findAllMember() {
 		try {
-			Thread.sleep(1800); // 1.8초 지연시킴
-		} catch (InterruptedException e) {
+			Thread.sleep(1800);//1.8초 소요
+		} catch (InterruptedException e) {			
 			e.printStackTrace();
 		}
 		System.out.println("core findAll member");
 	}
 	public void register(String id,String name) throws DuplicateIdException {
 		try {
-			Thread.sleep(900); // 0.9초 지연시킴
-		} catch (InterruptedException e) {
+			Thread.sleep(900);//0.9초 소요
+		} catch (InterruptedException e) {			
 			e.printStackTrace();
 		}
 		if(id.equals("java"))
@@ -31,3 +31,23 @@ public class MemberService {
 		System.out.println("core register member");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

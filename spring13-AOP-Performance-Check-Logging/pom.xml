@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.kosa</groupId>
-	<artifactId>spring13-AOP-Performance-Check-Logging</artifactId>
+	<artifactId>spring13-AOP-Performance-Check-Logging-inst</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring13-AOP-Performance-Check-Logging</name>
+	<name>spring13-AOP-Performance-Check-Logging-inst</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -34,7 +34,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
