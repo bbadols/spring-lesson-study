@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.kosa</groupId>
-	<artifactId>spring18-thymeleaf-mybatis</artifactId>
+	<artifactId>spring18-thymeleaf-mybatis-inst</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring18-thymeleaf-mybatis</name>
+	<name>spring18-thymeleaf-mybatis-inst</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

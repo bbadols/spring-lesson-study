@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 	@GetMapping("/")
-	public String home(Model model){
-		model.addAttribute("message", "Hello SpringBoot");
-		return "index"; // h1 정보를 message 정보로 치환
+	public String home(Model model) {
+		model.addAttribute("message", "Hello Spring Boot");
+		return "index"; // h1 정보를 message 정보로 치환 
 	}
 }

@@ -10,16 +10,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/member")
 public class MemberController {
 	private final MemberMapper memberMapper;
-	// @Autowired 생략
-	public MemberController(MemberMapper memberMapper) {
+	//@Autowired // 생략 
+	public MemberController(MemberMapper memberMapper) { // IOC / DI 
 		super();
 		this.memberMapper = memberMapper;
 	}
-	
 	@GetMapping("/member-totalcount")
 	public String getTotalMemberCount(Model model) {
 		model.addAttribute("totalMemberCount", memberMapper.getTotalMemberCount());
 		return "member/total-count";
-		
 	}
 }
+
+
+
+
+
