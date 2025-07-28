@@ -292,7 +292,9 @@
    사용자 요청 - Spring controller - 템플릿 엔진 - (thymeleaf) html을 파싱, 데이터를 할당(binding)
    - 클라이언트에게 전달할 HTML로 응답
    
-   
+   **TDD**
+   TDD : Test Driven Development
+   JUnit : TDD를 위한 자바 테스트 프레임워크
    
    
    
