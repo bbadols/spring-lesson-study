@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>org.kosa</groupId>
-	<artifactId>spring19-thymeleaf-layout-dialect-inst</artifactId>
+	<artifactId>spring19-thymeleaf-layout-dialect</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring19-thymeleaf-layout-dialect-inst</name>
+	<name>spring19-thymeleaf-layout-dialect</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -67,9 +67,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-<groupId>nz.net.ultraq.thymeleaf</groupId>
-<artifactId>thymeleaf-layout-dialect</artifactId>
-</dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

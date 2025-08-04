@@ -10,7 +10,7 @@ import org.kosa.myproject.domain.Member;
 public interface MemberMapper {
 
 	List<Map<String, String>> findMemberMapList();
-
 	int insertMember(Member member);
+	List<Map<String, String>> findMemberList();
 
 }
